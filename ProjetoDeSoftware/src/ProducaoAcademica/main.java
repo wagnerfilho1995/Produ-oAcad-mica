@@ -3,13 +3,25 @@ package ProducaoAcademica;
 import java.util.Scanner;
 
 public class main {
-
+/*
 	public static int search(Developers[] dev){
 		int i = 0;
 		while(dev[i].allocated != 0){
 			i++;
 		}
 		return i;
+	}
+	
+	public static int searchIndexProject(Project[] proj, String s){
+		
+		int i = 0; 
+		while(proj[i].status > 0){
+			if(s.equals(proj[i].headline)){
+				return i;
+			}
+		}
+		
+		return -1;
 	}
 	
 	public static void projectsPrint(Project[] proj){
@@ -56,6 +68,8 @@ public class main {
 		System.out.println("--------- EDITING ---------" + "\n");
 		
 		short d;
+		String s;
+		int i;
 		
 		do{
 			System.out.println("------------------------");
@@ -76,11 +90,25 @@ public class main {
 					
 					developersPrint(stu, prof, res);
 					
+					System.out.println("Witch one did you choose?");
+					s = input.nextLine();
+					
 					break;
 				
 				case 2:
 					
 					projectsPrint(proj);
+					
+					System.out.println("Witch one did you choose?");
+					s = input.nextLine();
+					
+					i = searchIndexProject(proj, s);
+					if(i == -1){
+						System.out.println("Project not find");
+					}
+					else{
+						System.out.println("Actual stage:");
+					}
 					
 					break;
 					
@@ -222,68 +250,65 @@ public class main {
 		input.close();
 
 	}
-
+*/
 	public static void main(String[] args) {
 		
 		Scanner input  = new Scanner(System.in);
-		
 		short n = -1;
 		
 		short d; 
 		
-		String c;
+		String s;
 		
-		int max = 100;
+		int max = 30;
 		int i, j, k;
 		
 		Project [] proj = new Project[max];
-		student[] stu = new student[max*5];
-		professor[] prof = new professor[max*5];
-		research[] res = new research[max*5];
 		
-		for(i = 0, j = 0; i < proj.length; i++){
+		Developers[] dev = new Developers[max*10];
+		
+		for(i = 0; i < proj.length; i++){
 			proj[i] = new Project();
-			for(k = 0; k < 5; k++, j++){
-				stu[j] = new student();
-				prof[j] = new professor();
-				res[j] = new research();
-			} 
 		}
 		
-		i = 0; // Contador de Colaboradores
+		for(i = 0; i < dev.length; i++){
+			dev[i] = new Developers();
+		}
+		
+		int c = 0; // Contador de Colaboradores
 		int p = 0; // Contador de projetos
 		int year = 2001; // Ano inicial
 		
 		// ALOCADOS
 		
-		stu[0].setName("Barney Stinson");;
-		stu[0].setEmail("legendarystinson@gmail.com");;
-		stu[0].setCollege("Columbia University");;
-		stu[0].type = 1; // Graduante
-		stu[0].allocated = 1;
+		dev[0].setName("Barney Stinson");;
+		dev[0].setEmail("legendarystinson@gmail.com");;
+		dev[0].setCollege("Legendary University");
+		((student)dev[0]).setMatricula("11223344");
+		((graduatingDegree)dev[0]).setNumberOfProjects(1);
 		
-		stu[1].name = "Oliver Queen";
-		stu[1].setEmail("greenarrow@gmail.com");
-		stu[1].setCollege("Star University");
-		stu[1].type = 2; // Mestrando
-		stu[1].allocated = 1;
+		dev[1].name = "Oliver Queen";
+		dev[1].setEmail("greenarrow@gmail.com");
+		dev[1].setCollege("Star University");
+		((student)dev[1]).setMatricula("55667788");
+		((masterDegree)dev[1]).setMasterSubject("Archery");
 		
-		prof[0].setName("Walter Bishop");
-		prof[0].setEmail("walterbishop@gmail.com");
-		prof[0].setColleges("Harvard University");
-		prof[0].allocated = 1;
 		
-		res[0].setName("Spock");;
-		res[0].setEmail("spock_enterprise@gmail.com");
-		res[0].setResearchArea("Logical Thinks");
-		res[0].allocated = 1;
+		dev[2].setName("Walter Bishop");
+		dev[2].setEmail("walterbishop@gmail.com");
+		dev[2].setCollege("Harvard University");
+		
+		
+		dev[3].setName("Spock");;
+		dev[3].setEmail("spock_enterprise@gmail.com");
+		
 		
 		proj[0].setHeadline("Dharma Iniciative");
-		proj[0].starDate = 1995;
+		proj[0].starDate = 1970;
 		proj[0].setFunder("Charlie Widmore");
 		proj[0].financedValue = 10000000;
 		proj[0].setGoal("Dominate the holy World");
-		proj[0].setDescription("Explore the stranges properties of Lost Island");
+		proj[0].setDescription("Explore the stranges properties of a strange Island");
 		proj[0].status = 1; // Em elaboração
 		
 		do{
@@ -300,7 +325,7 @@ public class main {
 			
 			n = input.nextShort();
 			
-			c = input.nextLine(); // Pega o '\n' do último scanner
+			s = input.nextLine(); // Pega o '\n' do último scanner
 			
 			System.out.println();
 			
@@ -308,34 +333,44 @@ public class main {
 				
 				case 0: // SAIR
 					
-					System.out.println("Thank's for been using our services!");
-			
+					System.out.println("Do you really wanna exit?");
+					System.out.println("1 - Yes");
+					System.out.println("2 - No");
+					d = input.nextShort();
+					
+					if(d == 1){
+						System.out.println("Thank's for been using our services!");
+					}
+					else n = 9;
+					
 					break;
 				
 				case 1: // NOVO PROJETO
 					
-					createNewProject(proj, p, year);
+					//createNewProject(proj, p, year);
 					p++;
 					
 					break;
 				
 				case 2: // ADICIONAR
 				
-					add(stu, prof, res);
+					//add(stu, prof, res);
 					i++;
 					
 					break;
 				
 				case 3: // EDITAR
 					
-					edit(stu, prof, res, proj);
+					//edit(stu, prof, res, proj);
 					
 					break;
 				
-				case 4:
+				case 4: // INFORMAÇÕES
 					
-					//projects(proj, p);
+					//projectsPrint(proj);
+					
 					System.out.println("Please report the name of the project:\n");
+					s = input.nextLine();
 					
 					break;
 				
@@ -352,7 +387,7 @@ public class main {
 					System.out.println("Invalid command! please try again\n");
 					
 					System.out.println("Press any button to continue");
-					c = input.next();
+					s = input.next();
 					
 					break;
 			}

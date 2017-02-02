@@ -8,6 +8,24 @@ public class Developers {
 	
 	public String email;
 	
+	public String College;
+	
+	public int getAllocated() {
+		return allocated;
+	}
+
+	public void setAllocated(int allocated) {
+		this.allocated = allocated;
+	}
+
+	public String getCollege() {
+		return College;
+	}
+
+	public void setCollege(String college) {
+		this.College = college;
+	}
+
 	public String getName() {
 		return name;
 	}
