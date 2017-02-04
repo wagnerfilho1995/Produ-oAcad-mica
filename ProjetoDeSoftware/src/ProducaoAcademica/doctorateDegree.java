@@ -1,7 +1,7 @@
 package ProducaoAcademica;
 
 public class doctorateDegree extends student{
-	
+
 	private String masterSubject;
 
 	public String getMasterSubject() {

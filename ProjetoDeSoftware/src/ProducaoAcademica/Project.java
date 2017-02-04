@@ -1,24 +1,38 @@
 package ProducaoAcademica;
 
+import java.util.ArrayList;
+
 public class Project {
 	
-	public int status;
+	public int status; // ESTADO DE DESENVOLVIMENTO DO PROJETO
 	
-	public String headline;
+	public String headline; // TITULO DO PROJETO
 	
-	public int starDate; // ANO
+	public int starDate; // ANO DE INICIO
 	
-	public int endDate; // ANO
+	public int endDate; // ANO DE TERMINO
 	
-	public String funder;
+	public String funder; // FINANCIADOR
 	
-	public double financedValue;
+	public double financedValue; // VALOR DE FINANCIAMENTO
 	
-	public String goal;
+	public String goal; // OBJETIVOS DO PROJETO
+	 
+	public String description; // DESCRIÇÃO DO PROJETO
 	
-	public String description;
+	protected ArrayList <Developers> developers; // ARRAYLIST DE PESSOAS ENVOLVIDAS NO PROJETO
+
+	public Project(){
+		developers = new ArrayList<Developers>();
+	}
 	
-	public Developers[] developers;
+	public ArrayList<Developers> getDevelopers() {
+		return developers;
+	}
+
+	public void setDevelopers(Developers dev) {
+		developers.add(dev);
+	}
 
 	public int getStatus() {
 		return status;
@@ -83,13 +97,9 @@ public class Project {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public Developers[] getDevelopers() {
-		return developers;
-	}
-
-	public void setDevelopers(Developers[] developers) {
-		this.developers = developers;
-	}
 	
+	public String toString(){
+		return this.headline;
+	}
+
 }
