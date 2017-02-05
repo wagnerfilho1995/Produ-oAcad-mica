@@ -22,8 +22,11 @@ public class Project {
 	
 	protected ArrayList <Developers> developers; // ARRAYLIST DE PESSOAS ENVOLVIDAS NO PROJETO
 
+	protected ArrayList <Publications> publications; // ARRAYLIST DE PUBLICAÇÕES RELACIONADAS AO PROJETO
+
 	public Project(){
-		developers = new ArrayList<Developers>();
+		developers = new ArrayList <Developers>();
+		pub = new ArrayList <Publications>();
 	}
 	
 	public ArrayList<Developers> getDevelopers() {
@@ -32,6 +35,14 @@ public class Project {
 
 	public void setDevelopers(Developers dev) {
 		developers.add(dev);
+	}
+	
+	public ArrayList<Publications> getPubs() {
+		return pub;
+	}
+
+	public void setPublication(Publications p) {
+		publications.add(p);
 	}
 
 	public int getStatus() {

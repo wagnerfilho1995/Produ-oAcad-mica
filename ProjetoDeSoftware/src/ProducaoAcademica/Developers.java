@@ -1,11 +1,27 @@
 package ProducaoAcademica;
 
+import java.util.ArrayList;
+
 public class Developers {
 	
 	public String name;
 	
 	public String email;
 	
+	protected ArrayList <Publications> publications;
+	
+		public Developers(){
+			publications = new ArrayList <Publications>();
+		}
+	
+		public ArrayList<Publications> getPublications() {
+			return publications;
+		}
+
+		public void setPublications(Publications pub) {
+			publications.add(pub);
+		}
+
 		public String getName() {
 			System.out.println(name);
 			return name;
@@ -26,7 +42,5 @@ public class Developers {
 	public String toString(){
 		return this.name;
 	}
-	// Historico;
-	// Publicações;
 	
 }

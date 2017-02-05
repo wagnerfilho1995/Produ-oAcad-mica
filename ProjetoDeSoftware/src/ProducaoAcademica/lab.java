@@ -126,6 +126,68 @@ public class lab {
 		return null;
 	}
 	
+	public static Publications createPublish(ArrayList <Developers> dev, ArrayList <Project> proj){
+		
+		Scanner input  = new Scanner(System.in);
+		
+		Publications pub = new Publications();
+		
+		System.out.println("------ NEW PUBLISH ------" + "\n");
+		
+		System.out.println("Insert a Title to your Publish:" + "\n");
+		pub.setHeadline(input.nextLine());
+		
+		System.out.println("Insert the year of the publishing:");
+		pub.setDateOfPublishing(input.nextInt());
+		
+		String c = input.nextLine();
+		
+		System.out.println("Describe your publish:");
+		pub.setDescriptions(input.nextLine());
+		
+		System.out.println("Please report the participants:");
+		
+		int n = 1;
+		
+		do{
+			
+			System.out.println("Full Name:");
+			c = input.nextLine();
+			
+			for(Developers d : dev){
+				if(c.equals(d.name)){
+					d.setPublications(pub);
+				}
+			}
+			
+			System.out.println("1 - Report anotherone");
+			System.out.println("2 - Done!");
+			n = input.nextInt();
+			c = input.nextLine();
+		}while(n != 2);
+
+		System.out.println("The Publish is related with some Project of our Lab?");
+		System.out.println("1 - Yes");
+		System.out.println("2 - No");
+		n = input.nextInt();
+		if(n == 1){
+			printProjects(proj);
+			System.out.println("Please insert the name of the project");
+			c = input.nextLine();
+			for(Projects p : proj){
+				if(c.equals(p.name)){
+					p.setPublications(pub);
+				}
+			}
+		}
+		
+		System.out.println("Well Done!");
+		
+		input.close();
+		
+		return pub;
+	}
+	
 	public static Project createProject(int year, ArrayList <Developers> dev){
 
 		Scanner input  = new Scanner(System.in);
@@ -200,6 +262,21 @@ public class lab {
 		}
 	}
 	
+	public static void printProjects(ArrayList <Project> proj){
+		for(Project p : proj){
+			System.out.print(p + " - ");
+			if(p.status == 1){
+				System.out.println("In preparing");
+			}
+			else if(p.status == 2){
+				System.out.println("In progress");
+			}
+			else if(p.status == 3){
+				System.out.println("Accomplished!");
+			}
+		}
+	}
+	
 	public static void initialConfiguration(ArrayList <Developers> dev, ArrayList <Project> proj){
 		
 		Developers dev1 = new graduatingDegree();
@@ -228,6 +305,12 @@ public class lab {
 		
 		dev.add(dev4);
 		
+		Developers dev5 = new professor();
+		dev5.setName("Daniel Faraday");
+		dev5.setEmail("danielfaraday@gmail.com");
+		
+		dev.add(dev5);
+		
 		Project proj1 = new Project();
 		proj1.setHeadline("Dharma Iniciative");
 		proj1.starDate = 1970;
@@ -236,13 +319,13 @@ public class lab {
 		proj1.setGoal("Dominate the holy World");
 		proj1.setDescription("Explore the stranges properties of a strange Island");
 		proj1.status = 1; // Em elaboração
-		proj1.setDevelopers(dev3);
+		proj1.setDevelopers(dev5);
 		
 		proj.add(proj1);
 		
 	}
 	
-	public static void edit(List <Developers> dev, List <Project> proj){
+	public static void edit(ArrayList <Developers> dev, ArrayList <Project> proj){
 		
 		Scanner input  = new Scanner(System.in);
 		
@@ -250,6 +333,7 @@ public class lab {
 		
 		short d;
 		String s;
+		String project;
 		int i;
 		
 		do{
@@ -264,23 +348,61 @@ public class lab {
 			
 			switch(d){
 				
-				case 0:
+				case 0: // VOLTAR
 				
 					break;
 				
-				case 1:
+				case 1:  // ALOCAR
 					
-					System.out.println("Please insert the ID of the Developer");
-					i = input.nextInt();
-					System.out.println(dev.get(i) + " was choose!");
+					System.out.println("------ Developers ------");
+					printDevelopers(dev);
+					System.out.println("\nPlease insert the name of the Developer");
+					String name = input.nextLine();
 					
-					System.out.println("Please insert the ID of the Project");
-					i = input.nextInt();
-					System.out.println(proj.get(i) + " was choose!");
+					System.out.println(name + " was choose!\n");
+					System.out.println("------ Projects ------");
+					printProjects(proj);
+					System.out.println("\nPlease insert the name of the Project");
+					project = input.nextLine();
+					
+					System.out.println(project + " was choose!");
+					
+					for(Project p : proj){
+						if(project.equals(p.headline)){
+							for(Developers q : dev){
+								if(name.equals(q.name)){
+									p.setDevelopers(q);
+									System.out.println("Well Done!");
+									System.out.println(q.name + " was allocated in " + p.headline);
+								}
+							}
+						}
+					}
 					
 					break;
 				
-				case 2:
+				case 2: // MUDAR STATUS
+					
+					System.out.println("------ Projects ------");
+					printProjects(proj);
+					System.out.println("\nPlease insert the name of the Project");
+					
+					project = input.nextLine();
+					
+					for(Project p : proj){
+						if(project.equals(p.headline)){
+	
+							System.out.println(p.headline + " was choose!");
+							System.out.println("New Status:");
+							System.out.println("1 - In Preparing");
+							System.out.println("1 - In Progress");
+							System.out.println("3 - Conclude!");
+							Short st = input.nextShort();
+					
+							p.status = st;
+							System.out.println("Done!");
+						}
+					}
 					
 					break;
 					
@@ -346,6 +468,8 @@ public class lab {
 		
 		ArrayList <Project> proj = new ArrayList <Project>();
 		
+		ArrayList <Publications> pub = new ArrayList <Publications>();
+		
 		short n; // Ações
 		short d; // Decisões
 		String s;
@@ -361,9 +485,10 @@ public class lab {
 			System.out.println("1 - Open a new Project");
 			System.out.println("2 - Add a new Developer");
 			System.out.println("3 - Edit a Research Project");
-			System.out.println("4 - Include an information");
-			System.out.println("5 - Consult");
-			System.out.println("6 - Report");
+			System.out.println("4 - Publish");
+			System.out.println("5 - Orientation");
+			System.out.println("6 - Consult");
+			System.out.println("7 - Report");
 			System.out.println("\n0 - Exit");
 			
 			n = input.nextShort();
@@ -406,20 +531,23 @@ public class lab {
 					
 					break;
 				
-				case 4: // INFORMAÇÕES
+				case 4: // PUBLICAR
 					
-					System.out.println("Please report the name of the project:\n");
-					s = input.nextLine();
+					pub.add(createPublish(dev, proj));
+					
+					break;
+					
+				case 5: // ORIENTAÇÃO
 					
 					break;
 				
-				case 5: // CONSULTAS
+				case 6: // CONSULTAS
 					
 					consult(dev, proj);
 					
 					break;
 				
-				case 6:  // RELATÓRIO
+				case 7:  // RELATÓRIO
 		
 					report(proj);
 					
