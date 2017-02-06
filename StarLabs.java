@@ -190,6 +190,7 @@ public class StarLabs {
 		System.out.println("Please report the participants:");
 		
 		int n = 1;
+		int id;
 		
 		do{
 			
@@ -212,19 +213,20 @@ public class StarLabs {
 		System.out.println("1 - Yes");
 		System.out.println("2 - No");
 		n = input.nextInt();
-		c = input.nextLine();
 		if(n == 1){
 			printProjects(proj);
-			System.out.println("Please insert the name of the project");
-			c = input.nextLine();
-			for(Project p : proj){
-				if(c.equals(p.headline)){
-					p.setPublication(pub);
-				}
+			System.out.println("Please insert the ID of the project");
+			id = input.nextInt();
+			Project p = proj.get(id);
+			if(p.status == 2){
+				p.setPublication(pub);
+			}
+			else{
+				System.out.println("Sorry, but this project is not in progress.");
 			}
 		}
 		
-		System.out.println("Well Done!");
+		System.out.println("Publicated!");
 		
 		return pub;
 	}
@@ -286,34 +288,34 @@ public class StarLabs {
 	public static void printDevelopers(ArrayList <Developers> dev){
 		for(Developers d : dev){
 			if(d instanceof graduatingDegree){
-				System.out.println("Graduating Student: " + d);
+				System.out.println(" * ID: " + dev.indexOf(d) + " - " + d + " - ( Graduating Student )");
 			}
 			else if(d instanceof masterDegree){
-				System.out.println("Master Student: " + d);
+				System.out.println(" * ID: " + dev.indexOf(d) + " - " + d + " - ( Master Student )");
 			}
 			else if(d instanceof doctorateDegree){
-				System.out.println("Doctorate Student: " + d);
+				System.out.println(" * ID: " + dev.indexOf(d) + " - " + d + " - ( Doctorate Student )");
 			}
 			else if(d instanceof professor){
-				System.out.println("Professor: " + d);
+				System.out.println(" * ID: " + dev.indexOf(d) + " - " + d + " - ( Professor )");
 			}
 			else if(d instanceof research){
-				System.out.println("Research: " + d);
+				System.out.println(" * ID: " + dev.indexOf(d) + " - " + d + " - ( Research )");
 			}
 		}
 	}
 	
 	public static void printProjects(ArrayList <Project> proj){
 		for(Project p : proj){
-			System.out.print(p + " - ");
+			System.out.print(" * ID: " + proj.indexOf(p) + " - " + p + " - ");
 			if(p.status == 1){
-				System.out.println("In preparing");
+				System.out.println("In preparing...");
 			}
 			else if(p.status == 2){
-				System.out.println("In progress");
+				System.out.println("... In progress ...");
 			}
 			else if(p.status == 3){
-				System.out.println("Accomplished!");
+				System.out.println("... Accomplished!");
 			}
 		}
 	}
@@ -389,7 +391,7 @@ public class StarLabs {
 		proj2.starDate = 2000;
 		proj2.setFunder("Harrison Wells");
 		proj2.financedValue = 100000;
-		proj2.setGoal("Learn all about super Powers");
+		proj2.setGoal("Learn all about Super Powers");
 		proj2.setDescription("Study the efects caused by the explosion of the Acelerator");
 		proj2.status = 1;
 		
@@ -405,11 +407,13 @@ public class StarLabs {
 		
 		short d;
 		String s;
-		String project;
 		int i;
+		int id;
+		Project proje;
 		
 		do{
-			System.out.println("------------------------");
+			
+			System.out.println("Choose an option:");
 			
 			System.out.println("1 - Allocate");
 			System.out.println("2 - Project Status");
@@ -421,62 +425,76 @@ public class StarLabs {
 			switch(d){
 				
 				case 0: // VOLTAR
-				
+			
 					break;
 				
 				case 1:  // ALOCAR
 					
 					System.out.println("------ Developers ------");
 					printDevelopers(dev);
-					System.out.println("\nPlease insert the name of the Developer");
-					String name = input.nextLine();
-					
-					System.out.println(name + " was choose!\n");
-					System.out.println("------ Projects ------");
-					printProjects(proj);
-					System.out.println("\nPlease insert the name of the Project");
-					project = input.nextLine();
-					
-					System.out.println(project + " was choose!");
-					
-					for(Project p : proj){
-						if(project.equals(p.headline)){
-							for(Developers q : dev){
-								if(name.equals(q.name)){
-									p.setDevelopers(q);
-									q.setProjects(p);
-									System.out.println("Well Done!");
-									System.out.println(q.name + " was allocated in " + p.headline);
-								}
-							}
+					System.out.println("\nPlease insert the ID of the Developer");
+					id = input.nextInt();
+					Developers deve = dev.get(id);
+					if(deve instanceof graduatingDegree){
+						if(((graduatingDegree) deve).getNumberOfProjects() >= 2){
+							System.out.println("Sorry, but this student can't participate of more then two projects");
+							break;
 						}
 					}
+					System.out.println(dev.get(id) + " was choose!\n");
+					System.out.println("------ Projects ------");
+					printProjects(proj);
+					System.out.println("\nPlease insert the ID of the Project");
+					id = input.nextInt();
 					
+					System.out.println(proj.get(id) + " was choose!");
+					proje = proj.get(id);
+					if(proje.status != 1){
+						System.out.println("Sorry, but this project already pass of this stage of allocation");
+						break;
+					}
+
+					proje.setDevelopers(deve);
+					deve.setProjects(proje);
+		
+					System.out.println("Well Done!");
+					System.out.println(deve.name + " was allocated in " + proje.headline);
+		
 					break;
 				
 				case 2: // MUDAR STATUS
 					
 					System.out.println("------ Projects ------");
 					printProjects(proj);
-					System.out.println("\nPlease insert the name of the Project");
+					System.out.println("\nPlease insert the ID of the Project");
+					id = input.nextInt();
 					
-					project = input.nextLine();
+					proje = proj.get(id);
 					
-					for(Project p : proj){
-						if(project.equals(p.headline)){
-	
-							System.out.println(p.headline + " was choose!");
-							System.out.println("New Status:");
-							System.out.println("1 - In Preparing");
-							System.out.println("1 - In Progress");
-							System.out.println("3 - Conclude!");
-							Short st = input.nextShort();
+					System.out.println("Choose a new Status:");
+					System.out.println("1 - In Preparing");
+					System.out.println("2 - In Progress");
+					System.out.println("3 - Conclude!");
+					Short st = input.nextShort();
 					
-							p.status = st;
-							System.out.println("Done!");
+					if(st == 2){
+						System.out.println("You'll can not allocate anyother member to this project");
+						System.out.println("Are you sure?");
+						System.out.println("1 - Yes");
+						System.out.println("2 - No");
+						short sure = input.nextShort();
+						if(sure == 2){
+							break;
 						}
 					}
+					if(st == 3){
+						System.out.println("Insert the End Date:");
+						proje.setEndDate(input.nextInt());
+					}
 					
+					proje.status = st;
+					System.out.println("Done!");
+				
 					break;
 					
 				default:
@@ -484,6 +502,10 @@ public class StarLabs {
 					System.out.println("Invalid Command!");
 					
 					break;
+			}
+			
+			if(d != 0){
+				System.out.println("---------- * -----------");
 			}
 			
 		} while(d != 0);
@@ -583,27 +605,76 @@ public class StarLabs {
 	
 	}
 	
-	public static void report(ArrayList <Project> proj){
+	public static void report(ArrayList <Developers> dev, ArrayList <Project> proj, int ori, int publi){
+		
+		System.out.println("--------- REPORT ---------\n");
+		
+		int grad = 0, mast = 0, doct = 0, prof = 0, res = 0;
+		
+		for(Developers d : dev){
+			if(d instanceof graduatingDegree){
+				grad++;
+			}
+			else if(d instanceof masterDegree){
+				mast++;
+			}
+			else if(d instanceof doctorateDegree){
+				doct++;
+			}
+			else if(d instanceof professor){
+				prof++;
+			}
+			else if(d instanceof research){
+				res++;
+			}
+		}
+		
+		System.out.println(" --> Developers");
+		
+		System.out.println(" * Graduating Students: " + grad);
+		System.out.println(" * Master Students: " + mast);
+		System.out.println(" * Doctorate Students: " + doct);
+		System.out.println(" * Professors: " + prof);
+		System.out.println(" * Researchs: " + res);
+		
+		System.out.println("\n # Total of Developers: " + dev.size());
+		
+		System.out.println("--------- *  ---------");
+		
+		int preparing = 0, progress = 0, conclude = 0;
 		
 		for(Project p : proj){
 		
-			System.out.print(p + " - ");
 			if(p.status == 1){
-				System.out.print(" In Preparation");
+				preparing++;
 			}
 			else if(p.status == 2){
-				System.out.print(" In Progress");
+				progress++;
 			}
 			else if(p.status == 3){
-				System.out.print(" Accomplished");
+				conclude++;
 			}
 			
-			System.out.println();
-			
-			for(Developers d: p.developers){
-				System.out.print(d);
-			}
 		}
+		
+		System.out.println(" --> Projects");
+		
+		System.out.println(" * Projects in preparing: " + preparing);
+		System.out.println(" * Projects in progress: " + progress);
+		System.out.println(" * Projects completed: " + conclude);
+		
+		System.out.println("\n # Total of Projects: " + proj.size());
+		
+		System.out.println("--------- * ---------");
+		
+		System.out.println(" --> Academic Production");
+		
+		System.out.println(" * Orientations: " + ori);
+		System.out.println(" * Publications:  " + publi);
+		System.out.println("\nTotal of The Academic production:  " + (publi + ori));
+		
+		System.out.println("--------- *  ---------");
+		
 	}
 
 	public static void main(String[] args) {
@@ -618,7 +689,9 @@ public class StarLabs {
 		
 		int acao = 1; // Ações
 		short d; // Decisões
-		String s;
+		String s; // Captura de respostas em Strings
+		
+		int ori = 0, publi = 0; // Contadores de orientações e publicações
 		
 		int year = 2001; // Ano "atual"
 		
@@ -682,13 +755,15 @@ public class StarLabs {
 				case 4: // PUBLICAR
 					
 					pub.add(createPublish(dev, proj));
+					publi++;
 					
 					break;
 					
 				case 5: // ORIENTAÇÃO
 					
 					orientation(dev);
-					
+					ori++;
+					 
 					break;
 				
 				case 6: // CONSULTAS
@@ -699,7 +774,7 @@ public class StarLabs {
 				
 				case 7:  // RELATÓRIO
 		
-					report(proj);
+					report(dev, proj, ori, publi);
 					
 					break;
 				
