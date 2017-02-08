@@ -8,9 +8,9 @@ public class Project {
 	
 	public String headline; // TITULO DO PROJETO
 	
-	public int starDate; // ANO DE INICIO
+	public int startDateDay, startDateMonth, startDateYear; // DATA DE INICIO
 	
-	public int endDate; // ANO DE TERMINO
+	public int endDateDay, endDateMonth, endDateYear; // DATA DE TERMINO
 	
 	public String funder; // FINANCIADOR
 	
@@ -26,7 +26,7 @@ public class Project {
 
 	public Project(){
 		developers = new ArrayList <Developers>();
-		pub = new ArrayList <Publications>();
+		publications = new ArrayList <Publications>();
 	}
 	
 	public ArrayList<Developers> getDevelopers() {
@@ -38,7 +38,7 @@ public class Project {
 	}
 	
 	public ArrayList<Publications> getPubs() {
-		return pub;
+		return publications;
 	}
 
 	public void setPublication(Publications p) {
@@ -61,22 +61,27 @@ public class Project {
 		this.headline = headline;
 	}
 
-	public int getStarDate() {
-		return starDate;
+	public int getStartDate(){
+		return (this.startDateDay + (this.startDateMonth*30) + (this.startDateYear*365));
 	}
-
-	public void setStarDate(int starDate) {
-		this.starDate = starDate;
+	
+	public void setStartDate(int startDateDay, int startDateMonth, int startDateYear){
+		this.startDateDay = startDateDay;
+		this.startDateMonth = startDateMonth;
+		this.startDateYear = startDateYear;
 	}
-
-	public int getEndDate() {
-		return endDate;
+	
+	public int getEndDate(){
+		return (this.endDateDay + (this.endDateMonth*30) + (this.endDateYear*365));
 	}
-
-	public void setEndDate(int endDate) {
-		this.endDate = endDate;
+	
+	public void setEndDate(int endDateDay, int endDateMonth, int endDateYear){
+		this.endDateDay = endDateDay;
+		this.endDateMonth = endDateMonth;
+		this.endDateYear = endDateYear;
 	}
-
+	
+	
 	public String getFunder() {
 		return funder;
 	}

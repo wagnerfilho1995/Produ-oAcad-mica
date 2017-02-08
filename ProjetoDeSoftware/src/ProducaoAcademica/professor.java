@@ -4,17 +4,17 @@ import java.util.ArrayList;
 
 public class professor extends Developers {
 	
-	protected ArrayList <student> orientations;
+	protected ArrayList <Developers> orientations;
 	
 		public professor(){
-			orientations = new ArrayList<student>();
+			orientations = new ArrayList<Developers>();
 		}
 
-		public ArrayList<student> getOrientations() {
+		public ArrayList<Developers> getOrientations() {
 			return orientations;
 		}
 
-		public void setOrientations(student stu) {
+		public void setOrientations(Developers stu) {
 			orientations.add(stu);
 		}
 }
