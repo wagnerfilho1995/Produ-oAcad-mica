@@ -2,6 +2,7 @@ package ProducaoAcademica;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -79,7 +80,7 @@ public class StarLabs {
 		}
 		else if(dev instanceof professor){
 			System.out.println(" | Occupation: Professor");
-			System.out.print(" | Orientations:");
+			System.out.print(" | Guiding: ");
 			for(Developers d : ((professor) dev).getOrientations()){
 				System.out.print(d.name + " ; ");
 			}
@@ -97,6 +98,37 @@ public class StarLabs {
 		sortByDatesPub(dev.publications);
 	}
 	
+	public static void informationsProj(Project proj){
+		
+		System.out.println(" *-------------- PROJECT -----------");
+		
+		System.out.println(" | Name: " + proj.headline);
+		System.out.println(" | Start: " + proj.startDateDay + "/" + proj.startDateMonth + "/" + proj.startDateYear);
+		if(proj.status == 1){
+			System.out.println(" | Status: Starting...");
+			System.out.println(" | End: " + " - ");
+		}else if(proj.status == 2){
+			System.out.println(" | Status: ...In Progress...");
+			System.out.println(" | End: " + " - ");
+		}else if(proj.status == 3){
+			System.out.println(" | Status: ...Accomplished");
+			System.out.println(" | Start: " + proj.endDateDay + "/" + proj.endDateMonth + "/" + proj.endDateYear);
+		}
+		
+		System.out.println(" | Funder: " + proj.funder);
+		System.out.println(" | Financed Value: " + proj.financedValue);
+		System.out.println(" | Goal: " + proj.goal);
+		System.out.println(" | Description: " + proj.description);
+		
+		System.out.println(" | Developers: ");
+		ArrayList<Developers> deve = proj.developers;
+		for(Developers d : deve){
+			System.out.println(d.name + " ; ");
+		}
+		System.out.println(" | Publications: ");
+		sortByDatesPub(proj.publications);
+	}
+	
 	public static Developers createDeveloper(){
 		
 		Scanner input  = new Scanner(System.in);
@@ -105,13 +137,15 @@ public class StarLabs {
 		
 		System.out.println("--------- NEW DEVELOPER ---------" + "\n");
 		
-		System.out.println("Full Name:");
+		try{
+		
+		System.out.print("Full Name: ");
 		String name = input.nextLine();
 		
-		System.out.println("Email:");
+		System.out.print("\nEmail: ");
 		String email = input.nextLine();
 		
-		System.out.println("Occupation:\n");
+		System.out.println("\n---- Occupation ----");
 		System.out.println("1 - Student");
 		System.out.println("2 - Professor");
 		System.out.println("3 - Research");
@@ -125,10 +159,10 @@ public class StarLabs {
 				
 				System.out.println("--------- NEW STUDENT ---------" + "\n");
 				
-				System.out.println("University:\n");
+				System.out.print("University: ");
 				String university = input.nextLine();
 				
-				System.out.println("Degree:\n");
+				System.out.print("\n---- Degree ----\n");
 				System.out.println("1 - Graduate");
 				System.out.println("2 - Master");
 				System.out.println("3 - Doctorate");
@@ -143,6 +177,8 @@ public class StarLabs {
 						
 					case 3:
 						return createStudentDoctorate(name, email, university);
+					default:
+						System.out.println("Invalid Command! Please, try again!");
 				}
 				
 			case 2: // ADD PROFESSOR
@@ -155,11 +191,30 @@ public class StarLabs {
 				
 			default:
 				
-				System.out.println("Invalid Command!");
+				System.out.println("Invalid Command! Please, try again!");
 				
 		}
-
-		input.close();
+		
+		}catch(InputMismatchException e){
+			
+			System.out.println("Invalid Command! Some date was put incorrectly.");
+			System.out.println("Probably you insert characters unlike (1, 2, 3, 4...), please try again");
+			
+			System.out.println("1 - Try again");
+			System.out.println("2 - Back to menu");
+			String getchar = input.nextLine();
+			int option = input.nextInt();
+			while(option != 2 && option != 1){
+				System.out.println("Please choose a valid option");
+				option = input.nextInt();
+			}
+			if(option == 1){
+				createDeveloper();
+			}
+			else{
+				return null;
+			}
+		}
 		return null;
 	}
 	
@@ -171,124 +226,192 @@ public class StarLabs {
 		
 		System.out.println("--------- NEW PUBLISH ---------" + "\n");
 		
-		System.out.println("Insert a Title to your Publish:");
-		pub.setHeadline(input.nextLine());
-		
-		System.out.println("Congress of the publication:");
-		pub.setCongress(input.nextLine());
-		
-		System.out.println("Insert the year of the publishing:");
-		pub.setDateOfPublishing(input.nextInt());
-		
-		String c = input.nextLine();
-		
-		System.out.println("Describe your publish:");
-		pub.setDescriptions(input.nextLine());
-		
-		System.out.println("Please report the participants:");
-		
-		int n = 1;
-		int id;
-		
-		do{
+		try{
+
+			System.out.println("Insert a Title to your Publish:");
+			pub.setHeadline(input.nextLine());
 			
-			System.out.println("Full Name:");
-			c = input.nextLine();
+			System.out.println("Congress of the publication:");
+			pub.setCongress(input.nextLine());
 			
-			for(Developers d : dev){
-				if(c.equals(d.name)){
-					d.setPublications(pub);
+			System.out.println("Insert the year of the publishing:");
+			pub.setDateOfPublishing(input.nextInt());
+			
+			String c = input.nextLine();
+			
+			System.out.println("Describe your publish:");
+			pub.setDescriptions(input.nextLine());
+			
+			System.out.println("Please report the participants:");
+			
+			int n = 1;
+			int id;
+			
+			do{
+				System.out.println("Full Name:");
+				c = input.nextLine();
+				
+				for(Developers d : dev){
+					if(c.equals(d.name)){
+						d.setPublications(pub);
+					}
+				}
+				System.out.println("\n1 - Report anotherone");
+				System.out.println("2 - Done!");
+				n = input.nextInt();
+				c = input.nextLine();
+			}while(n != 2);
+
+			System.out.println("The Publish is related with some Project in progress of our Lab?");
+			System.out.println("1 - Yes");
+			System.out.println("2 - No");
+			n = input.nextInt();
+			if(n == 1){
+				printProjects(proj);
+				System.out.println("Please insert the ID of the project");
+				id = input.nextInt();
+				Project p = proj.get(id);
+				if(p.status == 2){
+					p.setPublication(pub);
+				}
+				else{
+					System.out.println("Sorry, but this project is not in progress.");
 				}
 			}
 			
-			System.out.println("\n1 - Report anotherone");
-			System.out.println("2 - Done!");
-			n = input.nextInt();
-			c = input.nextLine();
-		}while(n != 2);
+			System.out.println("Publicated!");
 
-		System.out.println("The Publish is related with some Project of our Lab?");
-		System.out.println("1 - Yes");
-		System.out.println("2 - No");
-		n = input.nextInt();
-		if(n == 1){
-			printProjects(proj);
-			System.out.println("Please insert the ID of the project");
-			id = input.nextInt();
-			Project p = proj.get(id);
-			if(p.status == 2){
-				p.setPublication(pub);
+		}catch(InputMismatchException e){
+			
+			System.out.println("Invalid Command! Some date was put incorrectly.");
+			System.out.println("Probably you insert characters unlike (1, 2, 3, 4...), please try again");
+			
+			System.out.println("1 - Try again");
+			System.out.println("2 - Back to menu");
+			String getchar = input.nextLine();
+			int option = input.nextInt();
+			while(option != 2 && option != 1){
+				System.out.println("Please choose a valid option");
+				option = input.nextInt();
+			}
+			if(option == 1){
+				createPublish(dev, proj);
 			}
 			else{
-				System.out.println("Sorry, but this project is not in progress.");
+				return null;
 			}
 		}
-		
-		System.out.println("Publicated!");
-		
+				
 		return pub;
 	}
 	
 	public static Project createProject(ArrayList <Developers> dev){
 
 		Scanner input  = new Scanner(System.in);
-		
+	
 		Project proj = new Project();
-
-		System.out.println("------ NEW PROJECT ------" + "\n");
+		int option = 0;
 		
-		System.out.println("Headline:");
-		proj.setHeadline(input.nextLine());
+		System.out.println("-------- NEW PROJECT --------" + "\n");
 		
-		System.out.println("Please report the date to begin: (dd mm aaaa)");
-		System.out.print("Day: ");
-		int day = input.nextInt();
-		System.out.print("\nMonth: ");
-		int mon = input.nextInt();
-		System.out.print("\nYear: ");
-		int year = input.nextInt();
-		proj.setStartDate(day, mon, year);
-		
-		System.out.println("\nFunder Agency:");
-		proj.setFunder(input.nextLine());
-		
-		System.out.println("Value:");
-		proj.setFinancedValue(input.nextDouble());
-		
-		System.out.println("Write down the goals of this project:");
-		proj.setGoal(input.nextLine());
-
-		proj.status = 1;
-		
-		System.out.println("Please, insert an professor to this new project: ");
-		for(Developers d : dev){
-			if(d instanceof professor){
-				System.out.println(d);
-			}
-		}
-
-		System.out.println("1 - Insert one of this teachers");
-		System.out.println("2 - Add a new professor to insert");
-		Short d = input.nextShort();
-		String s = input.nextLine();
-		if(d == 1){
-			System.out.println("Insert the name:");
+		try{
+			
+			System.out.println("Headline:");
+			proj.setHeadline(input.nextLine());
+			
+			System.out.println("Please report the date to begin: (dd mm aaaa)");
+			System.out.print("Day: ");
+			int day = input.nextInt();
+			System.out.print("Month: ");
+			int mon = input.nextInt();
+			System.out.print("Year: ");
+			int year = input.nextInt();
+			proj.setStartDate(day, mon, year);
+			
+			String s = input.nextLine();
+			
+			System.out.print("Funder Agency:");
+			proj.setFunder(input.nextLine());
+			
+			System.out.print("Value:");
+			proj.setFinancedValue(input.nextDouble());
+			
 			s = input.nextLine();
-			for(Developers de : dev){
-				if(s.equals(de)){
-					proj.setDevelopers(de);
+			
+			System.out.println("Write down the goals of this project:");
+			proj.setGoal(input.nextLine());
+
+			proj.status = 1;
+			
+			System.out.println("\n-------- Professors --------");
+			for(Developers d : dev){
+				if(d instanceof professor){
+					System.out.println(" * ID: " + dev.indexOf(d) + " - " + d);
 				}
 			}
+			
+			System.out.println("----------- * -----------");
+			
+			int id;
+			
+			System.out.println("Insert the ID of one of this teachers: ");
+			
+			id = input.nextInt();
+			
+			while(!(dev.get(id) instanceof professor)){
+				System.out.println("Wrong ID, please report an ID from a Professor of our lab");
+				id = input.nextInt();
+			}
+			
+			Developers de = dev.get(id);
+			
+			proj.setDevelopers(de);
+			
+			System.out.println("Congratulations!!");
+			
+			System.out.println("The Project " + proj.headline + " was add to our Lab!");
+			
+		}catch(IndexOutOfBoundsException e){
+			
+			System.out.println("Invalid Command! Some date was put incorrectly.");
+			System.out.println("Probably you insert an ID that doesn't exist, please try again.");
+			
+			System.out.println("1 - Try again");
+			System.out.println("2 - Back to menu");
+			option = input.nextInt();
+			while(option != 2 && option != 1){
+				System.out.println("Please choose a valid option");
+				option = input.nextInt();
+			}
+			if(option == 1){
+				createProject(dev);
+			}
+			else{
+				return null;
+			}
+		}catch(InputMismatchException e){
+			
+			System.out.println("Invalid Command! Some date was put incorrectly.");
+			System.out.println("Probably you insert characters unlike (1, 2, 3, 4...), please try again");
+			
+			System.out.println("1 - Try again");
+			System.out.println("2 - Back to menu");
+			String getchar = input.nextLine();
+			option = input.nextInt();
+			while(option != 2 && option != 1){
+				System.out.println("Please choose a valid option");
+				option = input.nextInt();
+			}
+			if(option == 1){
+				createProject(dev);
+			}
+			else{
+				return null;
+			}
 		}
-		else if(d == 2){
-			proj.setDevelopers(createDeveloper());
-		}
-		
-		System.out.println("Congratulations!");
-		
-		System.out.println("The Project " + proj.headline + " was add to our Lab!");
 		
 		return proj;
+	
 	}
 	
 	public static void sortByDates(ArrayList <Project> proj){
@@ -342,7 +465,7 @@ public class StarLabs {
 		for(i = 0; i < a.length; i++){
 			for(Publications pu : pub){
 				if(a[i] == pu.dateOfPublishing){
-					System.out.println(" -> Date: " + pu.dateOfPublishing + " - " + pu.headline);
+					System.out.println("   -> Date: " + pu.dateOfPublishing + " - " + pu.headline);
 				}
 			}
 		}
@@ -450,7 +573,7 @@ public class StarLabs {
 		proj.add(proj1);
 		
 		Project proj2 = new Project();
-		proj2.setHeadline("Meta Humans");
+		proj2.setHeadline("Meta-Humans");
 		proj2.setStartDate(20, 10, 2000);
 		proj2.setFunder("Harrison Wells");
 		proj2.financedValue = 100000;
@@ -468,117 +591,163 @@ public class StarLabs {
 		
 		System.out.println("--------- EDITING ---------" + "\n");
 		
-		short d;
-		String s;
-		int i;
-		int id;
-		Project proje;
-		
-		do{
+		int option;
+		try{
+			short d;
+			String s;
+			int i, id;
+			Project proje;
 			
-			System.out.println("Choose an option:");
-			
-			System.out.println("1 - Allocate");
-			System.out.println("2 - Project Status");
-			System.out.println("\n0 - Back to the Main Menu");
-			
-			d = input.nextShort();
-			s = input.nextLine();
-			
-			switch(d){
+			do{
 				
-				case 0: // VOLTAR
-			
-					break;
+				System.out.println("Choose an option:");
 				
-				case 1:  // ALOCAR
+				System.out.println("1 - Allocate");
+				System.out.println("2 - Project Status");
+				System.out.println("\n0 - Back to the Main Menu");
+				
+				d = input.nextShort();
+				s = input.nextLine();
+				
+				switch(d){
 					
-					System.out.println("------ Developers ------");
-					printDevelopers(dev);
-					System.out.println("\nPlease insert the ID of the Developer");
-					id = input.nextInt();
-					Developers deve = dev.get(id);
-					if(deve instanceof graduatingDegree){
-						if(((graduatingDegree) deve).getNumberOfProjects() >= 2){
-							System.out.println("Sorry, but this student can't participate of more then two projects");
-							break;
-						}
-					}
-					System.out.println(dev.get(id) + " was choose!\n");
-					System.out.println("------ Projects ------");
-					printProjects(proj);
-					System.out.println("\nPlease insert the ID of the Project");
-					id = input.nextInt();
-					
-					System.out.println(proj.get(id) + " was choose!");
-					proje = proj.get(id);
-					if(proje.status != 1){
-						System.out.println("Sorry, but this project already pass of this stage of allocation");
+					case 0: // VOLTAR
+				
 						break;
-					}
-
-					proje.setDevelopers(deve);
-					deve.setProjects(proje);
-		
-					System.out.println("Well Done!");
-					System.out.println(deve.name + " was allocated in " + proje.headline);
-		
-					break;
-				
-				case 2: // MUDAR STATUS
 					
-					System.out.println("------ Projects ------");
-					printProjects(proj);
-					System.out.println("\nPlease insert the ID of the Project");
-					id = input.nextInt();
-					
-					proje = proj.get(id);
-					
-					System.out.println("Choose a new Status:");
-					System.out.println("1 - In Preparing");
-					System.out.println("2 - In Progress");
-					System.out.println("3 - Conclude!");
-					Short st = input.nextShort();
-					
-					if(st == 2){
-						System.out.println("You'll can not allocate anyother member to this project");
-						System.out.println("Are you sure?");
-						System.out.println("1 - Yes");
-						System.out.println("2 - No");
-						short sure = input.nextShort();
-						if(sure == 2){
+					case 1:  // ALOCAR
+						
+						System.out.println("------ Developers ------");
+						printDevelopers(dev);
+						System.out.println("\nPlease insert the ID of the Developer");
+						id = input.nextInt();
+						Developers deve = dev.get(id);
+						if(deve instanceof graduatingDegree){
+							if(((graduatingDegree) deve).getNumberOfProjects() >= 2){
+								System.out.println("Sorry, but this student can't participate of more then two projects");
+								break;
+							}
+						}
+						System.out.println(dev.get(id) + " was choose!\n");
+						System.out.println("------ Projects ------");
+						printProjects(proj);
+						System.out.println("\nPlease insert the ID of the Project");
+						id = input.nextInt();
+						
+						System.out.println(proj.get(id) + " was choose!");
+						proje = proj.get(id);
+						if(proje.status != 1){
+							System.out.println("Sorry, but this project already pass of this stage of allocation");
 							break;
 						}
-					}
-					if(st == 3){
-						System.out.println("Please report the date to begin: (dd mm aaaa)");
-						System.out.print("Day: ");
-						int day = input.nextInt();
-						System.out.print("\nMonth: ");
-						int mon = input.nextInt();
-						System.out.print("\nYear: ");
-						int year = input.nextInt();
-						proje.setEndDate(day, mon, year);
-					}
+
+						proje.setDevelopers(deve);
+						deve.setProjects(proje);
+			
+						System.out.println("Well Done!");
+						System.out.println(deve.name + " was allocated in " + proje.headline);
+			
+						break;
 					
-					proje.status = st;
-					System.out.println("Done!");
+					case 2: // MUDAR STATUS
+						
+						System.out.println("------ Projects ------");
+						printProjects(proj);
+						System.out.println("\nPlease insert the ID of the Project");
+						id = input.nextInt();
+						
+						proje = proj.get(id);
+						
+						System.out.println("Choose a new Status:");
+						System.out.println("1 - In Preparing");
+						System.out.println("2 - In Progress");
+						System.out.println("3 - Conclude!");
+						Short st = input.nextShort();
+						
+						if(st == 1) proje.status = 1;
+						if(st == 2){
+							System.out.println("You'll can not allocate anyother member to this project");
+							System.out.println("Are you sure?");
+							System.out.println("1 - Yes");
+							System.out.println("2 - No");
+							short sure = input.nextShort();
+							if(sure == 2){
+								break;
+							}
+							proje.status = st;
+							System.out.println("Done!");
+						}
+						else if(st == 3){
+							ArrayList <Publications> pubs = proje.getPubs();
+							if(pubs.size() > 0){
+								System.out.println("Please report the date to begin:");
+								System.out.print("Day: ");
+								int day = input.nextInt();
+								System.out.print("Month: ");
+								int mon = input.nextInt();
+								System.out.print("Year: ");
+								int year = input.nextInt();
+								proje.setEndDate(day, mon, year);
+							
+								proje.status = st;
+								System.out.println("Done!");
+							}
+							else{
+								System.out.println("Sorry but this Project haven't any Publish");
+							}
+						}
+						else{
+							System.out.println("Invalid Command! Please try again");
+						}
+					
+						break;
+						
+					default:
+			
+						System.out.println("Invalid Command! Please try again");
+						
+						break;
+				}
 				
-					break;
-					
-				default:
-		
-					System.out.println("Invalid Command!");
-					
-					break;
+				if(d != 0){
+					System.out.println("---------- * -----------");
+				}
+				
+			} while(d != 0);
+
+		}catch(IndexOutOfBoundsException e){
+			
+			System.out.println("Invalid Command! Some date was put incorrectly.");
+			System.out.println("Probably you insert an ID that doesn't exist, please try again.");
+			
+			System.out.println("1 - Try again");
+			System.out.println("2 - Back to menu");
+			option = input.nextInt();
+			while(option != 2 && option != 1){
+				System.out.println("Please choose a valid option");
+				option = input.nextInt();
+			}
+			if(option == 1){
+				edit(dev, proj);
 			}
 			
-			if(d != 0){
-				System.out.println("---------- * -----------");
-			}
+		}catch(InputMismatchException e){
 			
-		} while(d != 0);
-	
+			System.out.println("Invalid Command! Some date was put incorrectly.");
+			System.out.println("Probably you insert characters unlike (1, 2, 3, 4...), please try again");
+			
+			System.out.println("1 - Try again");
+			System.out.println("2 - Back to menu");
+			String getchar = input.nextLine();
+			option = input.nextInt();
+			while(option != 2 && option != 1){
+				System.out.println("Please choose a valid option");
+				option = input.nextInt();
+			}
+			if(option == 1){
+				edit(dev, proj);
+			}
+		}
 	}
 	
 	public static void orientation(ArrayList <Developers> dev){
@@ -586,49 +755,57 @@ public class StarLabs {
 		Scanner input  = new Scanner(System.in);
 		
 		System.out.println("------ All Professors ------");
-		
-		for(Developers d : dev){
-			if(d instanceof professor){
-				System.out.println(d.name);
-			}
-		}
-		
-		System.out.println("--------- * ----------\n");
-		
-		System.out.println("Please insert the name of the Professor:");
-		String prof = input.nextLine();
-		
-		System.out.println("\n------ All Students ------");
-		
-		for(Developers d : dev){
-			if(d instanceof student){
-				System.out.println(d.name);
-			}
-		}
-		
-		System.out.println("--------- * ----------\n");
-		
-		
-		System.out.println("Please insert the name of the Student:");
-		String stu = input.nextLine();
-		
-		for(Developers d : dev){
-			if(prof.equals(d.name)){
+		try{
+			
+			for(Developers d : dev){
 				if(d instanceof professor){
-					for(Developers e : dev){
-						if(stu.equals(e.name)){
-							
-							((professor) d).setOrientations(e);
-
-							System.out.println("Well Done!");
-							System.out.println("Now " + d.name + " is Guilding " + e.name + " !");
-
-							break;
-						}
-					}
-					break;
+					System.out.println("ID: " + dev.indexOf(d) + " - " + d.name);
 				}
 			}
+			System.out.println("--------- * ----------\n");
+			
+			System.out.println("Please insert the ID of the Professor:");
+			int id = input.nextInt();
+			
+			Developers prof = dev.get(id);
+			
+			System.out.println("\n------ All Students ------");
+			
+			for(Developers d : dev){
+				if(d instanceof student){
+					System.out.println("ID: " + dev.indexOf(d) + " - " + d.name);
+				}
+			}
+			System.out.println("--------- * ----------\n");
+			
+			
+			System.out.println("Please insert the ID of the Student:");
+			id = input.nextInt();
+			
+			Developers stu = dev.get(id);
+			
+			ArrayList <Developers> a = ((professor)prof).getOrientations();
+			a.add(stu);
+			
+			System.out.println("Well Done!");
+			System.out.println("Now " + prof.name + " is Guilding " + stu.name + " !");
+		
+		}catch(IndexOutOfBoundsException e){
+			
+			System.out.println("Invalid Command! Some date was put incorrectly.");
+			System.out.println("Probably you insert an ID that doesn't exist, please try again.");
+			
+			System.out.println("1 - Try again");
+			System.out.println("2 - Back to menu");
+			int option = input.nextInt();
+			while(option != 2 && option != 1){
+				System.out.println("Please choose a valid option");
+				option = input.nextInt();
+			}
+			if(option == 1){
+				orientation(dev);
+			}
+			
 		}
 	}
 	
@@ -637,40 +814,78 @@ public class StarLabs {
 		Scanner input  = new Scanner(System.in);
 
 		String s;
+		Short d = -1;
+		int id, option;
 		
-		System.out.println("1 - Developers");
-		System.out.println("2 - Projects");
-		Short d = input.nextShort();
-		s = input.nextLine();
-		
-		if(d == 1){
-			if(dev.size() > 1){
-				System.out.println("------ Developers ------");
-				printDevelopers(dev);
-				System.out.println("---------- * ----------");
-				
-				System.out.println("Choose one of them");
+		try{
+			do{
+				System.out.println("1 - Developers");
+				System.out.println("2 - Projects");
+				System.out.println("\n0 - Back to menu");
+				d = input.nextShort();
 				s = input.nextLine();
 				
-				for(Developers de : dev){
-					if(s.equals(de.name)){
+				if(d == 1){
+					if(dev.size() > 1){
+						System.out.println("------ Developers ------");
+						printDevelopers(dev);
+						System.out.println("---------- * ----------");
+						
+						System.out.println("Choose The ID of one");
+						id = input.nextInt();
+						
+						Developers de = dev.get(id);
 						informationsDev(de);
 					}
+					else{
+						System.out.println("There are no Developers in our Lab now :(");
+					}
 				}
+				else if(d == 2){
+					
+					if(dev.size() > 0){
+						printProjects(proj);
+						
+						System.out.println("Choose The ID of one");
+						id = input.nextInt();
+						
+						Project pr = proj.get(id);
+						informationsProj(pr);
+						
+					}
+					else{
+						System.out.println("There are no Projects in our Lab now :(");
+					}
+				}
+				else{
+					System.out.println("Please insert: 1, 2 or 0");
+				}
+			}while(d != 0);
+		}catch(IndexOutOfBoundsException e){
+			
+			System.out.println("Invalid Command! Some date was put incorrectly.");
+			System.out.println("Probably you insert an ID that doesn't exist, please try again.");
+			
+			System.out.println("1 - Try again");
+			System.out.println("2 - Back to menu");
+			option = input.nextInt();
+			if(option == 1){
+				consult(dev, proj);
 			}
-			else{
-				System.out.println("There are no Developers in our Lab now :(");
+		}catch(InputMismatchException e){
+			
+			System.out.println("Invalid Command! Some date was put incorrectly.");
+			System.out.println("Probably you insert characters unlike (1, 2, 3, 4...), please try again");
+			
+			System.out.println("1 - Try again");
+			System.out.println("2 - Back to menu");
+			String getchar = input.nextLine();
+			option = input.nextInt();
+			
+			if(option == 1){
+				consult(dev, proj);
 			}
 		}
-		else if(d == 2){
-			if(dev.size() > 1){
-				printProjects(proj);
-			}
-			else{
-				System.out.println("There are no Projects in our Lab now :(");
-			}
-		}
-		
 	
 	}
 	
@@ -740,7 +955,7 @@ public class StarLabs {
 		
 		System.out.println(" * Orientations: " + ori);
 		System.out.println(" * Publications:  " + publi);
-		System.out.println("\nTotal of The Academic production:  " + (publi + ori));
+		System.out.println("\n # Total of The Academic production:  " + (publi + ori));
 		
 		System.out.println("--------- *  ---------");
 		
@@ -764,99 +979,124 @@ public class StarLabs {
 		
 		initialConfiguration(dev, proj);
 		
-		while(acao != 0){
+		try{
 			
-			System.out.println("\n--------- RoboVision 2001 ---------");
-			System.out.println("\nPlease, insert the number of your action:");
-			System.out.println("1 - Open a new Project");
-			System.out.println("2 - Add a new Developer");
-			System.out.println("3 - Edit a Research Project");
-			System.out.println("4 - Publish");
-			System.out.println("5 - Orientation");
-			System.out.println("6 - Consult");
-			System.out.println("7 - Report");
-			System.out.println("\n0 - Exit");
+			while(acao != 0){
+				
+				System.out.println("\n--------- RoboVision 2001 ---------");
+				System.out.println("\nPlease, insert the number of your action:");
+				System.out.println("1 - Open a new Project");
+				System.out.println("2 - Add a new Developer");
+				System.out.println("3 - Edit a Research Project");
+				System.out.println("4 - Publish");
+				System.out.println("5 - Orientation");
+				System.out.println("6 - Consult");
+				System.out.println("7 - Report");
+				System.out.println("\n0 - Exit");
+				
+				acao = input.nextInt();
+				
+				s = input.nextLine(); // Pega o '\n' do último scanner
+				
+				System.out.println();
+				
+				switch(acao){
+					
+					case 0: // SAIR
+						
+						System.out.println("Do you really wanna exit?");
+						System.out.println("1 - Yes");
+						System.out.println("2 - No");
+						d = input.nextShort();
+						
+						if(d == 1){
+							System.out.println("Thank's for been using our services!");
+						}
+						else acao = 9;
+						
+						break;
+					
+					case 1: // NOVO PROJETO
+						
+						Project pr = createProject(dev);
+						
+						if(pr != null){
+							proj.add(pr);
+						}
+						
+						break;
+					
+					case 2: // ADICIONAR
+					
+						Developers dv = createDeveloper();
+						
+						if(dv != null){
+							dev.add(dv);
+						}
+						
+						break;
+					
+					case 3: // EDITAR
+						
+						edit(dev, proj);
+						
+						break;
+					
+					case 4: // PUBLICAR
+						
+						pub.add(createPublish(dev, proj));
+						publi++;
+						
+						break;
+						
+					case 5: // ORIENTAÇÃO
+						
+						orientation(dev);
+						ori++;
+						 
+						break;
+					
+					case 6: // CONSULTAS
+						
+						consult(dev, proj);
+						
+						break;
+					
+					case 7:  // RELATÓRIO
 			
-			acao = input.nextInt();
-			
-			s = input.nextLine(); // Pega o '\n' do último scanner
-			
-			System.out.println();
-			
-			switch(acao){
+						report(dev, proj, ori, publi);
+						
+						break;
+					
+					default:
+						
+						System.out.println("Invalid command! please try again\n");
+						System.out.println("Press any button to continue");
+						
+						s = input.next();
+						
+						break;
+				}
 				
-				case 0: // SAIR
-					
-					System.out.println("Do you really wanna exit?");
-					System.out.println("1 - Yes");
-					System.out.println("2 - No");
-					d = input.nextShort();
-					
-					if(d == 1){
-						System.out.println("Thank's for been using our services!");
-					}
-					else acao = 9;
-					
-					break;
-				
-				case 1: // NOVO PROJETO
-					
-					proj.add(createProject(dev));
-					System.out.println("Congratulations!! A new Developer was added to our Lab!\n");
-					
-					break;
-				
-				case 2: // ADICIONAR
-				
-					dev.add(createDeveloper());
-					System.out.println("Congratulations!! A new Project was added to our Lab!\n");
-					
-					break;
-				
-				case 3: // EDITAR
-					
-					edit(dev, proj);
-					
-					break;
-				
-				case 4: // PUBLICAR
-					
-					pub.add(createPublish(dev, proj));
-					publi++;
-					
-					break;
-					
-				case 5: // ORIENTAÇÃO
-					
-					orientation(dev);
-					ori++;
-					 
-					break;
-				
-				case 6: // CONSULTAS
-					
-					consult(dev, proj);
-					
-					break;
-				
-				case 7:  // RELATÓRIO
-		
-					report(dev, proj, ori, publi);
-					
-					break;
-				
-				default:
-					
-					System.out.println("Invalid command! please try again\n");
-					
-					System.out.println("Press any button to continue");
-					s = input.next();
-					
-					break;
 			}
+		}catch(InputMismatchException e){
 			
+			System.out.println("Invalid Command! Some date was put incorrectly.");
+			System.out.println("Probably you insert characters unlike (1, 2, 3, 4...), please try again");
+			
+			System.out.println("1 - Try again");
+			System.out.println("2 - Back to menu");
+			String getchar = input.nextLine();
+			int option = input.nextInt();
+			while(option != 2 && option != 1){
+				System.out.println("Please choose a valid option");
+				option = input.nextInt();
+			}
+			if(option == 1){
+				edit(dev, proj);
+			}
 		}
-		
 		input.close();
 	}
+	
 }

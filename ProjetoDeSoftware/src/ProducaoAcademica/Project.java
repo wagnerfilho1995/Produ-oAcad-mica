@@ -45,43 +45,42 @@ public class Project {
 		publications.add(p);
 	}
 
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
 	public String getHeadline() {
 		return headline;
-	}
+	}	
 
 	public void setHeadline(String headline) {
 		this.headline = headline;
 	}
-
+	
+	public int getStatus() {
+			return status;
+		}
+	
+	public void setStatus(int status) {
+			this.status = status;
+		}
+	
 	public int getStartDate(){
-		return (this.startDateDay + (this.startDateMonth*30) + (this.startDateYear*365));
-	}
-	
+			return (this.startDateDay + (this.startDateMonth*30) + (this.startDateYear*365));
+		}
+		
 	public void setStartDate(int startDateDay, int startDateMonth, int startDateYear){
-		this.startDateDay = startDateDay;
-		this.startDateMonth = startDateMonth;
-		this.startDateYear = startDateYear;
-	}
-	
+			this.startDateDay = startDateDay;
+			this.startDateMonth = startDateMonth;
+			this.startDateYear = startDateYear;
+		}
+		
 	public int getEndDate(){
-		return (this.endDateDay + (this.endDateMonth*30) + (this.endDateYear*365));
-	}
-	
+			return (this.endDateDay + (this.endDateMonth*30) + (this.endDateYear*365));
+		}
+		
 	public void setEndDate(int endDateDay, int endDateMonth, int endDateYear){
-		this.endDateDay = endDateDay;
-		this.endDateMonth = endDateMonth;
-		this.endDateYear = endDateYear;
-	}
-	
-	
+			this.endDateDay = endDateDay;
+			this.endDateMonth = endDateMonth;
+			this.endDateYear = endDateYear;
+		}
+		
 	public String getFunder() {
 		return funder;
 	}
@@ -119,3 +118,4 @@ public class Project {
 	}
 
 }
+	
