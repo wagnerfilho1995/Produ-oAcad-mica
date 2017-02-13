@@ -960,9 +960,9 @@ public class StarLabs {
 		System.out.println("--------- *  ---------");
 		
 	}
-
-	public static void main(String[] args) {
-
+	
+	public static void lab(){
+		
 		Scanner input  = new Scanner(System.in);
 		
 		ArrayList <Developers> dev = new ArrayList <Developers>();
@@ -1031,6 +1031,7 @@ public class StarLabs {
 						Developers dv = createDeveloper();
 						
 						if(dv != null){
+							System.out.println("Congratulations!!" + dv.name + " was add to our lab!");
 							dev.add(dv);
 						}
 						
@@ -1085,18 +1086,29 @@ public class StarLabs {
 			System.out.println("Probably you insert characters unlike (1, 2, 3, 4...), please try again");
 			
 			System.out.println("1 - Try again");
-			System.out.println("2 - Back to menu");
+			System.out.println("2 - Exit");
 			String getchar = input.nextLine();
 			int option = input.nextInt();
 			while(option != 2 && option != 1){
-				System.out.println("Please choose a valid option");
+				System.out.println("Please choose a valid option (1 or 2)");
+				System.out.println("1 - Try again");
+				System.out.println("2 - Exit");
 				option = input.nextInt();
 			}
 			if(option == 1){
-				edit(dev, proj);
+				lab();
+			}
+			else if(option == 2){
+				System.out.println("Thank's for been using our services!");
 			}
 		}
 		input.close();
+
 	}
-	
+
+	public static void main(String[] args) {
+
+		lab();
+			
+	}
 }
