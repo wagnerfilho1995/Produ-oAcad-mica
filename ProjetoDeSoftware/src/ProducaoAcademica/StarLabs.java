@@ -123,7 +123,7 @@ public class StarLabs {
 		System.out.println(" | Developers: ");
 		ArrayList<Developers> deve = proj.developers;
 		for(Developers d : deve){
-			System.out.println(d.name + " ; ");
+			System.out.println("   * " + d.name + " ; ");
 		}
 		System.out.println(" | Publications: ");
 		sortByDatesPub(proj.publications);
@@ -248,15 +248,14 @@ public class StarLabs {
 			int id;
 			
 			do{
-				System.out.println("Full Name:");
-				c = input.nextLine();
+				printDevelopers(dev);
+				System.out.println("ID:");
 				
-				for(Developers d : dev){
-					if(c.equals(d.name)){
-						d.setPublications(pub);
-					}
-				}
-				System.out.println("\n1 - Report anotherone");
+				id = input.nextInt();
+				Developers deve = dev.get(id);
+				deve.setPublications(pub);
+				
+				System.out.println("1 - Report anotherone");
 				System.out.println("2 - Done!");
 				n = input.nextInt();
 				c = input.nextLine();
@@ -310,7 +309,7 @@ public class StarLabs {
 		Scanner input  = new Scanner(System.in);
 	
 		Project proj = new Project();
-		int option = 0;
+		int option;
 		
 		System.out.println("-------- NEW PROJECT --------" + "\n");
 		
@@ -359,7 +358,7 @@ public class StarLabs {
 			id = input.nextInt();
 			
 			while(!(dev.get(id) instanceof professor)){
-				System.out.println("Wrong ID, please report an ID from a Professor of our lab");
+				System.out.println("Wrong ID! Please report an ID from a Professor of our lab");
 				id = input.nextInt();
 			}
 			
@@ -379,7 +378,7 @@ public class StarLabs {
 			System.out.println("1 - Try again");
 			System.out.println("2 - Back to menu");
 			option = input.nextInt();
-			while(option != 2 && option != 1){
+			while(option != '2' && option != '1'){
 				System.out.println("Please choose a valid option");
 				option = input.nextInt();
 			}
@@ -548,7 +547,7 @@ public class StarLabs {
 		dev.add(dev6);
 		
 		Developers dev7 = new graduatingDegree();
-		dev7.setName("Amanda Félix");
+		dev7.setName("Amanda F�lix");
 		dev7.setEmail("amandafelix@gmail.com");
 		((student)dev7).setCollege("Ufal");
 		
@@ -819,6 +818,8 @@ public class StarLabs {
 		
 		try{
 			do{
+				System.out.println("\n--------- CONSULT ---------\n");
+				
 				System.out.println("1 - Developers");
 				System.out.println("2 - Projects");
 				System.out.println("\n0 - Back to menu");
@@ -837,7 +838,7 @@ public class StarLabs {
 						Developers de = dev.get(id);
 						informationsDev(de);
 					}
-					else{
+					else if(d != 0){
 						System.out.println("There are no Developers in our Lab now :(");
 					}
 				}
@@ -857,8 +858,8 @@ public class StarLabs {
 						System.out.println("There are no Projects in our Lab now :(");
 					}
 				}
-				else{
-					System.out.println("Please insert: 1, 2 or 0");
+				else if(d != 0){
+					System.out.println("Error! Please insert a valid option: 1, 2 or 0");
 				}
 			}while(d != 0);
 		}catch(IndexOutOfBoundsException e){
@@ -1063,7 +1064,7 @@ public class StarLabs {
 						
 						break;
 					
-					case 7:  // RELATÓRIO
+					case 7:  // RELATӓRIO
 			
 						report(dev, proj, ori, publi);
 						
