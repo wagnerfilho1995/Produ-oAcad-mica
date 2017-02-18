@@ -1,9 +1,7 @@
 package ProducaoAcademica;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 public class StarLabs {
@@ -146,9 +144,9 @@ public class StarLabs {
 		String email = input.nextLine();
 		
 		System.out.println("\n---- Occupation ----");
-		System.out.println("1 - Student");
-		System.out.println("2 - Professor");
-		System.out.println("3 - Research");
+		System.out.println("(1) - Student");
+		System.out.println("(2) - Professor");
+		System.out.println("(3) - Research");
 		r = input.nextShort();
 		
 		String c = input.nextLine();
@@ -163,9 +161,9 @@ public class StarLabs {
 				String university = input.nextLine();
 				
 				System.out.print("\n---- Degree ----\n");
-				System.out.println("1 - Graduate");
-				System.out.println("2 - Master");
-				System.out.println("3 - Doctorate");
+				System.out.println("(1) - Graduate");
+				System.out.println("(2) - Master");
+				System.out.println("(3) - Doctorate");
 				r = input.nextShort();
 				
 				switch(r){
@@ -200,15 +198,12 @@ public class StarLabs {
 			System.out.println("Invalid Command! Some date was put incorrectly.");
 			System.out.println("Probably you insert characters unlike (1, 2, 3, 4...), please try again");
 			
-			System.out.println("1 - Try again");
-			System.out.println("2 - Back to menu");
-			String getchar = input.nextLine();
-			int option = input.nextInt();
-			while(option != 2 && option != 1){
-				System.out.println("Please choose a valid option");
-				option = input.nextInt();
-			}
-			if(option == 1){
+			input.nextLine();
+			
+			System.out.println("(1) - Try again");
+			System.out.println("(2) - Back to menu");
+			String option = input.nextLine();
+			if(option.equals("1")){
 				createDeveloper();
 			}
 			else{
@@ -223,6 +218,8 @@ public class StarLabs {
 		Scanner input  = new Scanner(System.in);
 		
 		Publications pub = new Publications();
+		
+		String option;
 		
 		System.out.println("--------- NEW PUBLISH ---------" + "\n");
 		
@@ -255,15 +252,15 @@ public class StarLabs {
 				Developers deve = dev.get(id);
 				deve.setPublications(pub);
 				
-				System.out.println("1 - Report anotherone");
-				System.out.println("2 - Done!");
+				System.out.println("(1) - Report anotherone");
+				System.out.println("(2) - Done!");
 				n = input.nextInt();
 				c = input.nextLine();
 			}while(n != 2);
 
 			System.out.println("The Publish is related with some Project in progress of our Lab?");
-			System.out.println("1 - Yes");
-			System.out.println("2 - No");
+			System.out.println("(1) - Yes");
+			System.out.println("(2) - No");
 			n = input.nextInt();
 			if(n == 1){
 				printProjects(proj);
@@ -285,15 +282,27 @@ public class StarLabs {
 			System.out.println("Invalid Command! Some date was put incorrectly.");
 			System.out.println("Probably you insert characters unlike (1, 2, 3, 4...), please try again");
 			
-			System.out.println("1 - Try again");
-			System.out.println("2 - Back to menu");
-			String getchar = input.nextLine();
-			int option = input.nextInt();
-			while(option != 2 && option != 1){
-				System.out.println("Please choose a valid option");
-				option = input.nextInt();
+			input.nextLine();
+			
+			System.out.println("(1) - Try again");
+			System.out.println("(2) - Back to menu");
+			option = input.nextLine();
+			if(option.equals("1")){
+				createPublish(dev, proj);
 			}
-			if(option == 1){
+			else{
+				return null;
+			}
+		}catch(IndexOutOfBoundsException e){
+			
+			System.out.println("Invalid Command! Some date was put incorrectly.");
+			System.out.println("Probably you insert an ID that doesn't exist, please try again.");
+			
+			input.nextLine();
+			System.out.println("(1) - Try again");
+			System.out.println("(2) - Back to menu");
+			option = input.nextLine();
+			if(option.equals("1")){
 				createPublish(dev, proj);
 			}
 			else{
@@ -309,7 +318,7 @@ public class StarLabs {
 		Scanner input  = new Scanner(System.in);
 	
 		Project proj = new Project();
-		int option;
+		String option;
 		
 		System.out.println("-------- NEW PROJECT --------" + "\n");
 		
@@ -375,14 +384,11 @@ public class StarLabs {
 			System.out.println("Invalid Command! Some date was put incorrectly.");
 			System.out.println("Probably you insert an ID that doesn't exist, please try again.");
 			
-			System.out.println("1 - Try again");
-			System.out.println("2 - Back to menu");
-			option = input.nextInt();
-			while(option != '2' && option != '1'){
-				System.out.println("Please choose a valid option");
-				option = input.nextInt();
-			}
-			if(option == 1){
+			input.nextLine();
+			System.out.println("(1) - Try again");
+			System.out.println("(2) - Back to menu");
+			option = input.nextLine();
+			if(option.equals("1")){
 				createProject(dev);
 			}
 			else{
@@ -393,15 +399,13 @@ public class StarLabs {
 			System.out.println("Invalid Command! Some date was put incorrectly.");
 			System.out.println("Probably you insert characters unlike (1, 2, 3, 4...), please try again");
 			
-			System.out.println("1 - Try again");
-			System.out.println("2 - Back to menu");
-			String getchar = input.nextLine();
-			option = input.nextInt();
-			while(option != 2 && option != 1){
-				System.out.println("Please choose a valid option");
-				option = input.nextInt();
-			}
-			if(option == 1){
+			input.nextLine();
+			System.out.println("(1) - Try again");
+			System.out.println("(2) - Back to menu");
+			
+			option = input.nextLine();
+			
+			if(option.equals("1")){
 				createProject(dev);
 			}
 			else{
@@ -590,7 +594,7 @@ public class StarLabs {
 		
 		System.out.println("--------- EDITING ---------" + "\n");
 		
-		int option;
+		String option;
 		try{
 			short d;
 			String s;
@@ -601,9 +605,9 @@ public class StarLabs {
 				
 				System.out.println("Choose an option:");
 				
-				System.out.println("1 - Allocate");
-				System.out.println("2 - Project Status");
-				System.out.println("\n0 - Back to the Main Menu");
+				System.out.println("(1) - Allocate");
+				System.out.println("(2) - Project Status");
+				System.out.println("\n(0) - Back to the Main Menu");
 				
 				d = input.nextShort();
 				s = input.nextLine();
@@ -658,17 +662,17 @@ public class StarLabs {
 						proje = proj.get(id);
 						
 						System.out.println("Choose a new Status:");
-						System.out.println("1 - In Preparing");
-						System.out.println("2 - In Progress");
-						System.out.println("3 - Conclude!");
+						System.out.println("(1) - In Preparing");
+						System.out.println("(2) - In Progress");
+						System.out.println("(3) - Conclude!");
 						Short st = input.nextShort();
 						
 						if(st == 1) proje.status = 1;
 						if(st == 2){
 							System.out.println("You'll can not allocate anyother member to this project");
 							System.out.println("Are you sure?");
-							System.out.println("1 - Yes");
-							System.out.println("2 - No");
+							System.out.println("(1) - Yes");
+							System.out.println("(2) - No");
 							short sure = input.nextShort();
 							if(sure == 2){
 								break;
@@ -719,14 +723,12 @@ public class StarLabs {
 			System.out.println("Invalid Command! Some date was put incorrectly.");
 			System.out.println("Probably you insert an ID that doesn't exist, please try again.");
 			
-			System.out.println("1 - Try again");
-			System.out.println("2 - Back to menu");
-			option = input.nextInt();
-			while(option != 2 && option != 1){
-				System.out.println("Please choose a valid option");
-				option = input.nextInt();
-			}
-			if(option == 1){
+			input.nextLine();
+			
+			System.out.println("(1) - Try again");
+			System.out.println("(2) - Back to menu");
+			option = input.nextLine();
+			if(option.equals("1")){
 				edit(dev, proj);
 			}
 			
@@ -735,15 +737,12 @@ public class StarLabs {
 			System.out.println("Invalid Command! Some date was put incorrectly.");
 			System.out.println("Probably you insert characters unlike (1, 2, 3, 4...), please try again");
 			
-			System.out.println("1 - Try again");
-			System.out.println("2 - Back to menu");
-			String getchar = input.nextLine();
-			option = input.nextInt();
-			while(option != 2 && option != 1){
-				System.out.println("Please choose a valid option");
-				option = input.nextInt();
-			}
-			if(option == 1){
+			input.nextLine();
+			
+			System.out.println("(1) - Try again");
+			System.out.println("(2) - Back to menu");
+			option = input.nextLine();
+			if(option.equals("1")){
 				edit(dev, proj);
 			}
 		}
@@ -752,6 +751,7 @@ public class StarLabs {
 	public static void orientation(ArrayList <Developers> dev){
 		
 		Scanner input  = new Scanner(System.in);
+		String option;
 		
 		System.out.println("------ All Professors ------");
 		try{
@@ -767,7 +767,10 @@ public class StarLabs {
 			int id = input.nextInt();
 			
 			Developers prof = dev.get(id);
-			
+			if(!(prof instanceof professor)){
+				System.out.println("Invalid Command!! The ID is not from a professor");
+				orientation(dev);
+			}
 			System.out.println("\n------ All Students ------");
 			
 			for(Developers d : dev){
@@ -777,11 +780,13 @@ public class StarLabs {
 			}
 			System.out.println("--------- * ----------\n");
 			
-			
 			System.out.println("Please insert the ID of the Student:");
 			id = input.nextInt();
-			
 			Developers stu = dev.get(id);
+			if(!(stu instanceof student)){
+				System.out.println("Invalid Command!! The ID is not from an Student");
+				orientation(dev);
+			}
 			
 			ArrayList <Developers> a = ((professor)prof).getOrientations();
 			a.add(stu);
@@ -794,17 +799,28 @@ public class StarLabs {
 			System.out.println("Invalid Command! Some date was put incorrectly.");
 			System.out.println("Probably you insert an ID that doesn't exist, please try again.");
 			
-			System.out.println("1 - Try again");
-			System.out.println("2 - Back to menu");
-			int option = input.nextInt();
-			while(option != 2 && option != 1){
-				System.out.println("Please choose a valid option");
-				option = input.nextInt();
-			}
-			if(option == 1){
+			input.nextLine();
+			System.out.println("(1) - Try again");
+			System.out.println("(2) - Back to menu");
+			option = input.nextLine();
+			
+			if(option.equals("1")){
 				orientation(dev);
 			}
 			
+		}catch(InputMismatchException e){
+			
+			System.out.println("Invalid Command! Some date was put incorrectly.");
+			System.out.println("Probably you insert characters unlike (1, 2, 3, 4...), please try again");
+			
+			input.nextLine();
+			System.out.println("(1) - Try again");
+			System.out.println("(Any other Button) - Back to menu");
+			option = input.nextLine();
+			
+			if(option.equals("1")){
+				orientation(dev);
+			}
 		}
 	}
 	
@@ -812,17 +828,17 @@ public class StarLabs {
 		
 		Scanner input  = new Scanner(System.in);
 
-		String s;
+		String s, option;
 		Short d = -1;
-		int id, option;
+		int id;
 		
 		try{
 			do{
 				System.out.println("\n--------- CONSULT ---------\n");
 				
-				System.out.println("1 - Developers");
-				System.out.println("2 - Projects");
-				System.out.println("\n0 - Back to menu");
+				System.out.println("(1) - Developers");
+				System.out.println("(2) - Projects");
+				System.out.println("\n(0) - Back to menu");
 				d = input.nextShort();
 				s = input.nextLine();
 				
@@ -838,7 +854,7 @@ public class StarLabs {
 						Developers de = dev.get(id);
 						informationsDev(de);
 					}
-					else if(d != 0){
+					else{
 						System.out.println("There are no Developers in our Lab now :(");
 					}
 				}
@@ -866,11 +882,13 @@ public class StarLabs {
 			
 			System.out.println("Invalid Command! Some date was put incorrectly.");
 			System.out.println("Probably you insert an ID that doesn't exist, please try again.");
+
+			input.nextLine();
+			System.out.println("(1) - Try again");
+			System.out.println("(Any other Button) - Back to menu");
+			option = input.nextLine();
 			
-			System.out.println("1 - Try again");
-			System.out.println("2 - Back to menu");
-			option = input.nextInt();
-			if(option == 1){
+			if(option.equals("1")){
 				consult(dev, proj);
 			}
 		}catch(InputMismatchException e){
@@ -878,14 +896,17 @@ public class StarLabs {
 			System.out.println("Invalid Command! Some date was put incorrectly.");
 			System.out.println("Probably you insert characters unlike (1, 2, 3, 4...), please try again");
 			
-			System.out.println("1 - Try again");
-			System.out.println("2 - Back to menu");
-			String getchar = input.nextLine();
-			option = input.nextInt();
+			input.nextLine();
+			System.out.println("(1) - Try again");
+			System.out.println("(Any other Button) - Back to menu");
+			option = input.nextLine();
 			
-			if(option == 1){
+			if(option.equals("1")){
 				consult(dev, proj);
 			}
+		}
+		catch(Exception e){
+			System.out.println("Try again");
 		}
 	
 	}
@@ -984,16 +1005,16 @@ public class StarLabs {
 			
 			while(acao != 0){
 				
-				System.out.println("\n--------- RoboVision 2001 ---------");
+				System.out.println("\n------------ RoboVision 2001 ------------");
 				System.out.println("\nPlease, insert the number of your action:");
-				System.out.println("1 - Open a new Project");
-				System.out.println("2 - Add a new Developer");
-				System.out.println("3 - Edit a Research Project");
-				System.out.println("4 - Publish");
-				System.out.println("5 - Orientation");
-				System.out.println("6 - Consult");
-				System.out.println("7 - Report");
-				System.out.println("\n0 - Exit");
+				System.out.println("(1) - Open a new Project");
+				System.out.println("(2) - Add a new Developer");
+				System.out.println("(3) - Edit a Research Project");
+				System.out.println("(4) - Publish");
+				System.out.println("(5) - Orientation");
+				System.out.println("(6) - Consult");
+				System.out.println("(7) - Report");
+				System.out.println("\n(0) - Exit");
 				
 				acao = input.nextInt();
 				
@@ -1006,14 +1027,13 @@ public class StarLabs {
 					case 0: // SAIR
 						
 						System.out.println("Do you really wanna exit?");
-						System.out.println("1 - Yes");
-						System.out.println("2 - No");
+						System.out.println("(1) - Yes");
+						System.out.println("(Any Number) - No");
 						d = input.nextShort();
 						
-						if(d == 1){
-							System.out.println("Thank's for been using our services!");
+						if(d != 1){
+							acao = 9;
 						}
-						else acao = 9;
 						
 						break;
 					
@@ -1072,7 +1092,7 @@ public class StarLabs {
 					
 					default:
 						
-						System.out.println("Invalid command! please try again\n");
+						System.out.println("Invalid Option! please try again\n");
 						System.out.println("Press any button to continue");
 						
 						s = input.next();
@@ -1086,22 +1106,15 @@ public class StarLabs {
 			System.out.println("Invalid Command! Some date was put incorrectly.");
 			System.out.println("Probably you insert characters unlike (1, 2, 3, 4...), please try again");
 			
-			System.out.println("1 - Try again");
-			System.out.println("2 - Exit");
-			String getchar = input.nextLine();
-			int option = input.nextInt();
-			while(option != 2 && option != 1){
-				System.out.println("Please choose a valid option (1 or 2)");
-				System.out.println("1 - Try again");
-				System.out.println("2 - Exit");
-				option = input.nextInt();
-			}
-			if(option == 1){
+			input.nextLine();
+			System.out.println("(1) - Back to Menu");
+			System.out.println("(Any other Button) - Exit");
+			String option = input.nextLine();
+			
+			if(option.equals("1")){
 				lab();
 			}
-			else if(option == 2){
-				System.out.println("Thank's for been using our services!");
-			}
+			
 		}
 		input.close();
 
@@ -1110,6 +1123,7 @@ public class StarLabs {
 	public static void main(String[] args) {
 
 		lab();
+		System.out.println("Thank's for been using our services!");
 			
 	}
 }
